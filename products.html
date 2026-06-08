@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega ShopEasy - Products</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+    header { background: #131921; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { color: white; font-size: 28px; font-weight: bold; }
+    nav a { color: white; text-decoration: none; margin-left: 15px; }
+    nav a:hover { color: #ff9900; }
+    .search-box { padding: 20px 5%; text-align: center; }
+    #searchInput { width: 300px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 20px 5%; }
+    .product-card { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
+    .product-card button { background: #ff9900; border: none; padding: 10px 15px; color: white; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    .product-card button:hover { background: #e67e00; }
+    
+    /* PROFESSIONAL JOURNEY BAR */
+    .journey-bar {
+    background: white;
+    padding: 25px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    margin-top: 40px;
+    }
+    .journey-info h3 { font-size: 18px; color: #111; margin: 0; }
+    .journey-info p { font-size: 14px; color: #666; margin: 4px 0 0 0; }
+    .journey-cta { padding: 14px 32px; background: #ff9900; color: #111; font-weight: bold; text-decoration: none; border-radius: 8px; transition: 0.3s; display: inline-block; }
+    .journey-cta:hover { background: #e68a00; }
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">ONLINE STORE</div>
+<nav>
+<a href="home.html">Home</a>
+<a href="products.html">Products</a>
+<a href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+<a href="checkout.html">Checkout</a>
+<a href="track.html">Track Order</a> <a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="🔍 Search Products..." onkeyup="searchProducts()">
+</div>
+
+<section class="products-grid" id="productsGrid">
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500">
+<h3>Women Dress</h3>
+<p>PKR 4500</p>
+<button onclick="addToCart('Women Dress','PKR 4500','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500">
+<h3>Ladies Handbag</h3>
+<p>PKR 3200</p>
+<button onclick="addToCart('Ladies Handbag','PKR 3200','https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500">
+<h3>Makeup Kit</h3>
+<p>PKR 2800</p>
+<button onclick="addToCart('Makeup Kit','PKR 2800','https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500">
+<h3>Lipstick</h3>
+<p>PKR 1200</p>
+<button onclick="addToCart('Lipstick','PKR 1200','https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500">
+<h3>Sneakers</h3>
+<p>PKR 5500</p>
+<button onclick="addToCart('Sneakers','PKR 5500','https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
+<h3>T-Shirt</h3>
+<p>PKR 1500</p>
+<button onclick="addToCart('T-Shirt','PKR 1500','https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500">
+<h3>Heels</h3>
+<p>PKR 4200</p>
+<button onclick="addToCart('Heels','PKR 4200','https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=500">
+<h3>Leather Jacket</h3>
+<p>PKR 8500</p>
+<button onclick="addToCart('Leather Jacket','PKR 8500','https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500">
+<h3>Cap</h3>
+<p>PKR 800</p>
+<button onclick="addToCart('Cap','PKR 800','https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500">
+<h3>Watch</h3>
+<p>PKR 7200</p>
+<button onclick="addToCart('Watch','PKR 7200','https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500">
+<h3>Headphones</h3>
+<p>PKR 4500</p>
+<button onclick="addToCart('Headphones','PKR 4500','https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=500">
+<h3>Keyboard</h3>
+<p>PKR 3500</p>
+<button onclick="addToCart('Keyboard','PKR 3500','https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1527814050087-3793815479db?w=500">
+<h3>Gaming Mouse</h3>
+<p>PKR 2600</p>
+<button onclick="addToCart('Gaming Mouse','PKR 2600','https://images.unsplash.com/photo-1527814050087-3793815479db?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500">
+<h3>iPhone 15</h3>
+<p>PKR 285000</p>
+<button onclick="addToCart('iPhone 15','PKR 285000','https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500">
+<h3>Samsung S24</h3>
+<p>PKR 240000</p>
+<button onclick="addToCart('Samsung S24','PKR 240000','https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500">
+<h3>Power Bank</h3>
+<p>PKR 4500</p>
+<button onclick="addToCart('Power Bank','PKR 4500','https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500">
+<h3>Skin Care Set</h3>
+<p>PKR 3600</p>
+<button onclick="addToCart('Skin Care Set','PKR 3600','https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500">
+<h3>Nail Polish</h3>
+<p>PKR 500</p>
+<button onclick="addToCart('Nail Polish','PKR 500','https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500">
+<h3>Baby Dress</h3>
+<p>PKR 1700</p>
+<button onclick="addToCart('Baby Dress','PKR 1700','https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=500">
+<h3>Kids Shoes</h3>
+<p>PKR 2200</p>
+<button onclick="addToCart('Kids Shoes','PKR 2200','https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=500">
+<h3>School Bag</h3>
+<p>PKR 2500</p>
+<button onclick="addToCart('School Bag','PKR 2500','https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?w=500">
+<h3>Travel Bag</h3>
+<p>PKR 4900</p>
+<button onclick="addToCart('Travel Bag','PKR 4900','https://images.unsplash.com/photo-1522199710521-72d69614c702?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500">
+<h3>Office Chair</h3>
+<p>PKR 12000</p>
+<button onclick="addToCart('Office Chair','PKR 12000','https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=500">
+<h3>Coffee Mug</h3>
+<p>PKR 600</p>
+<button onclick="addToCart('Coffee Mug','PKR 600','https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500">
+<h3>Kitchen Set</h3>
+<p>PKR 7800</p>
+<button onclick="addToCart('Kitchen Set','PKR 7800','https://images.unsplash.com/photo-1556911220-bff31c812dba?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500">
+<h3>Blender</h3>
+<p>PKR 6500</p>
+<button onclick="addToCart('Blender','PKR 6500','https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=500">
+<h3>Microwave Oven</h3>
+<p>PKR 28000</p>
+<button onclick="addToCart('Microwave Oven','PKR 28000','https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=500">
+<h3>Fridge</h3>
+<p>PKR 95000</p>
+<button onclick="addToCart('Fridge','PKR 95000','https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500">
+<h3>LED TV</h3>
+<p>PKR 145000</p>
+<button onclick="addToCart('LED TV','PKR 145000','https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500')">Add To Cart</button>
+</div>
+
+<div class="product-card">
+<img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500">
+<h3>Football</h3>
+<p>PKR 2000</p>
+<button onclick="addToCart('Football','PKR 2000','https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500')">Add To Cart</button>
+</div>
+</section>
+
+<div class="journey-bar">
+    <div class="journey-info">
+        <h3>Finished selection?</h3>
+        <p>Review items inside your active basket container before verifying purchase routing logs.</p>
+    </div>
+    <a href="cart.html" class="journey-cta">Proceed to Checkout Cart ➔</a>
+</div>
+
+<script>
+function searchProducts() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        let title = card.querySelector('h3').innerText.toLowerCase();
+        card.style.display = title.includes(input) ? 'block' : 'none';
+    });
+}
+
+function addToCart(name, price, image){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let numericPrice = parseInt(price.replace("PKR ",""));
+    
+    let existingItem = cart.find(item => item.name === name);
+    if(existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({
+            name: name,
+            price: numericPrice,
+            image: image,
+            qty: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert(name + " added to cart ✅");
+}
+
+function updateCartCount(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let totalItemsCount = cart.reduce((total, item) => total + item.qty, 0);
+    document.getElementById("cartCount").innerText = totalItemsCount;
+}
+
+window.onload = updateCartCount;
+</script>
+</body>
+</html>

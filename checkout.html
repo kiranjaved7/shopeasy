@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Checkout | ShopEasy</title>
+<link rel="stylesheet" href="style.css">
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+body{ background:#f5f5f5; }
+header{ background:#131921; padding:18px 5%; display:flex; justify-content:space-between; align-items:center; color:white; }
+.logo{ font-size:32px; font-weight:bold; text-decoration:none; color:white;}
+nav{ display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+nav a{ color:white; text-decoration:none; font-size:16px; transition:0.3s; }
+nav a:hover{ color:#ff9900; }
+.secure-checkout{ background:#ff9900; padding:10px 18px; border-radius:8px; font-size:15px; color: black; font-weight: bold;}
+.checkout{ display:grid; grid-template-columns:2fr 1fr; gap:30px; padding:50px 5%; }
+.checkout-container{ background:white; padding:35px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+.checkout h1{ font-size:42px; margin-bottom:30px; color:#222; }
+.checkout-form{ display:flex; flex-direction:column; gap:18px; }
+.checkout-form input, .checkout-form select, .checkout-form textarea{ padding:15px; border:none; border-radius:10px; font-size:16px; background:#f2f2f2; outline:none; width:100%; }
+.checkout-form textarea{ height:120px; resize:none; }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.payment-methods{ margin-top:15px; }
+.payment-methods h3{ margin-bottom:15px; font-size:24px; }
+.payment-box{ display:flex; align-items:center; gap:10px; background:#f8f8f8; padding:15px; border-radius:10px; margin-bottom:10px; cursor:pointer; }
+.place-order-btn{ margin-top:20px; padding:16px; border:none; background:#ff9900; color:#111; font-weight:bold; font-size:22px; border-radius:10px; cursor:pointer; transition:0.3s; width:100%; }
+.place-order-btn:hover{ background:#e67e00; }
+.order-summary{ background:white; padding:30px; border-radius:15px; height:fit-content; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+.order-summary h2{ margin-bottom:25px; font-size:30px; }
+.summary-item{ display:flex; justify-content:space-between; margin-bottom:18px; font-size:18px; }
+.summary-total{ display:flex; justify-content:space-between; font-size:28px; font-weight:bold; color:#ff6600; margin-top:25px; }
+.product-preview{ display:flex; align-items:center; gap:15px; margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid #ddd; }
+.product-preview img{ width:80px; height:80px; object-fit:cover; border-radius:10px; }
+.progress-bar{ width:100%; height:10px; background:#ddd; border-radius:20px; margin-bottom:30px; overflow:hidden; }
+.progress{ width:100%; height:100%; background:#ff9900; }
+
+/* SUPPORT & ACCESSIBILITY PIPELINE BAR */
+.journey-bar {
+background: white;
+padding: 25px 5%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-top: 1px solid #e5e7eb;
+box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+margin-top: 40px;
+}
+.journey-info h3 { font-size: 18px; color: #111; margin: 0; }
+.journey-info p { font-size: 14px; color: #666; margin: 4px 0 0 0; }
+.journey-ctas { display: flex; gap: 15px; }
+.journey-cta { padding: 14px 28px; background: #131921; color: white; font-weight: bold; text-decoration: none; border-radius: 8px; transition: 0.3s; display: inline-block; font-size: 15px; }
+.journey-cta.accent { background: #ff9900; color: #111; }
+.journey-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+@media(max-width:900px){ .checkout { grid-template-columns:1fr; } .form-row { grid-template-columns:1fr; } .journey-bar { flex-direction: column; text-align: center; gap: 20px; } }
+</style>
+</head>
+<body>
+
+<header>
+<a href="home.html" class="logo">ShopEasy</a>
+<nav>
+<a href="home.html">Home</a>
+<a href="products.html">Products</a>
+<a href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+<a href="checkout.html" style="color:#ff9900;">Checkout</a>
+<a href="track.html">Track Order</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div class="secure-checkout">🔒 Secure Connection</div>
+</header>
+
+<section class="checkout">
+<div class="left-column">
+    <div class="checkout-container" id="formPanel">
+        <div class="progress-bar"><div class="progress"></div></div>
+        <h1>Checkout Info</h1>
+
+        <form class="checkout-form" id="orderForm">
+            <input type="text" id="fullName" placeholder="Full Name" required>
+            <div class="form-row">
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="text" id="phone" placeholder="Phone Number" required>
+            </div>
+            <input type="text" id="address" placeholder="Complete Address" required>
+            <div class="form-row">
+                <input type="text" id="city" placeholder="City" required>
+                <input type="text" id="postalCode" placeholder="Postal Code" required>
+            </div>
+            <textarea id="orderNotes" placeholder="Order Notes (Optional)"></textarea>
+
+            <div class="payment-methods">
+                <h3>Payment Method</h3>
+                <label class="payment-box"><input type="radio" name="payment" value="Cash On Delivery" checked> Cash On Delivery</label>
+                <label class="payment-box"><input type="radio" name="payment" value="Credit / Debit Card"> Credit / Debit Card</label>
+                <label class="payment-box"><input type="radio" name="payment" value="JazzCash / EasyPaisa"> JazzCash / EasyPaisa</label>
+            </div>
+
+            <button type="submit" class="place-order-btn">Confirm & Place Order ➔</button>
+        </form>
+    </div>
+</div>
+
+<div class="order-summary">
+<h2>Order Summary</h2>
+<div id="summary-products-container"></div>
+<hr style="margin-bottom: 15px;">
+
+<div class="summary-item"><span>Subtotal</span><span id="summary-subtotal">PKR 0</span></div>
+<div class="summary-item"><span>Shipping</span><span id="summary-shipping">PKR 0</span></div>
+<hr>
+<div class="summary-total"><span>Total</span><span id="summary-total">PKR 0</span></div>
+</div>
+</section>
+
+<div class="journey-bar">
+    <div class="journey-info">
+        <h3>Have inquiries or modifications regarding this order?</h3>
+        <p>Connect with our round-the-clock support desk directly or return back home.</p>
+    </div>
+    <div class="journey-ctas">
+        <a href="contact.html" class="journey-cta">Contact Support ✉️</a>
+        <a href="home.html" class="journey-cta accent">Back to Storefront</a>
+    </div>
+</div>
+
+<script>
+// 1. Sync Global Header Cart Count
+function syncCartBadge() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let count = cart.reduce((total, item) => total + item.qty, 0);
+    document.getElementById("cartCount").innerText = count;
+}
+
+// 2. Build the visual order summary based on cart data
+function buildCheckoutSummary() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let productsContainer = document.getElementById("summary-products-container");
+    
+    if(cart.length === 0) {
+        alert("No active items found in your checkout profile! Returning to products.");
+        window.location.href = "products.html";
+        return;
+    }
+
+    productsContainer.innerHTML = "";
+    let subtotal = 0;
+
+    cart.forEach(item => {
+        subtotal += item.price * item.qty;
+        productsContainer.innerHTML += `
+        <div class="product-preview">
+            <img src="${item.image || 'https://via.placeholder.com/150'}" alt="${item.name}">
+            <div>
+                <h3>${item.name}</h3>
+                <p>Qty: ${item.qty} × PKR ${item.price}</p>
+            </div>
+        </div>
+        `;
+    });
+
+    let shipping = 250; 
+    let total = subtotal + shipping;
+
+    document.getElementById("summary-subtotal").innerText = "PKR " + subtotal;
+    document.getElementById("summary-shipping").innerText = "PKR " + shipping;
+    document.getElementById("summary-total").innerText = "PKR " + total;
+}
+
+// 3. Process form data and store permanent logs safely
+document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    
+    // Generate unique dynamic tracking ID code
+    let trackId = "SE-" + Math.floor(100000 + Math.random() * 900000);
+    
+    // Extract input fields safely
+    let fullName = document.getElementById('fullName').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    let address = document.getElementById('address').value;
+    let city = document.getElementById('city').value;
+    let postalCode = document.getElementById('postalCode').value;
+    let notes = document.getElementById('orderNotes').value;
+    
+    // Select payment method checked value
+    let selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+    
+    // Calculate total values from active items buffer
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let subtotal = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+    let shipping = 250;
+    let grandTotal = subtotal + shipping;
+
+    // Construct the solid order object database structure
+    let newOrder = {
+        orderId: trackId,
+        customerName: fullName,
+        email: email,
+        phone: phone,
+        address: `${address}, ${city}, ${postalCode}`,
+        paymentMethod: selectedPayment,
+        orderNotes: notes,
+        items: cart,
+        totalAmount: grandTotal,
+        status: "Order Placed",
+        date: new Date().toLocaleString()
+    };
+
+    // Pull database, save new data entry and commit back to storage channel
+    let ordersList = JSON.parse(localStorage.getItem("orders")) || [];
+    ordersList.push(newOrder);
+    localStorage.setItem("orders", JSON.stringify(ordersList));
+
+    // Clear cart memory safely as data is preserved in history log channel
+    localStorage.removeItem("cart"); 
+    
+    // Trigger notification alert box feedback and jump directly to dynamic monitor track panel
+    alert("🎉 Order placed successfully! Data stored. Your Tracking ID is: " + trackId);
+    window.location.href = "track.html?id=" + trackId;
+});
+
+window.onload = function() {
+    syncCartBadge();
+    buildCheckoutSummary();
+};
+</script>
+</body>
+</html>

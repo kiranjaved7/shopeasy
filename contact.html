@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | ShopEasy</title>
+<link rel="stylesheet" href="style.css">
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+body{ background:#f5f5f5; }
+header{ background:#131921; padding:18px 5%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+.logo{ color:white; font-size:32px; font-weight:bold; }
+nav{ display:flex; gap:20px; flex-wrap:wrap; }
+nav a{ color:white; text-decoration:none; font-size:16px; transition:0.3s; }
+nav a:hover{ color:#ff9900; }
+.contact-container{ padding:50px 5%; display:grid; grid-template-columns:1.5fr 1fr; gap:30px; }
+.contact-form-box{ background:white; padding:35px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:space-between; }
+.contact-form-box h2{ margin-bottom:20px; font-size:28px; }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px; }
+.contact-form-box input, .contact-form-box select, .contact-form-box textarea{ width:100%; padding:14px; border:1px solid #ccc; border-radius:8px; font-size:15px; outline:none; }
+.contact-form-box textarea{ height:150px; resize:none; }
+.send-btn{ padding:14px 28px; background:#ff9900; color:white; font-weight:bold; border:none; border-radius:8px; cursor:pointer; font-size:16px; margin-top:15px; width: fit-content; transition: 0.3s; }
+.send-btn:hover{ background:#e67e00; }
+
+/* MAP CONTAINER AND LAYOUT CONFIGURATION */
+.map-holder {
+width: 100%;
+height: 250px;
+border-radius: 10px;
+overflow: hidden;
+margin-top: 25px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+border: 2px solid rgba(255,153,0,0.3);
+}
+.map-holder iframe {
+width: 100%;
+height: 100%;
+border: 0;
+}
+
+/* PROFESSIONAL JOURNEY BAR */
+.journey-bar {
+background: white;
+padding: 25px 5%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-top: 1px solid #e5e7eb;
+box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+margin-top: 40px;
+}
+.journey-info h3 { font-size: 18px; color: #111; margin:0; }
+.journey-info p { font-size: 14px; color: #666; margin: 4px 0 0 0; }
+.journey-cta { padding: 14px 32px; background: #131921; color: white; font-weight: bold; text-decoration: none; border-radius: 8px; transition: 0.3s; display: inline-block; }
+.journey-cta:hover { background: #ff9900; color: #111; }
+@media(max-width:850px){ .contact-container{ grid-template-columns:1fr; } .form-row{ grid-template-columns:1fr; } .journey-bar { flex-direction: column; text-align: center; gap: 20px; } }
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">ShopEasy</div>
+<nav>
+<a href="home.html">Home</a>
+<a href="products.html">Products</a>
+<a href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+<a href="checkout.html">Checkout</a>
+<a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<section class="contact-container">
+<div class="contact-form-box">
+<h2>Drop Us A Message</h2>
+<form id="contactForm">
+<div class="form-row">
+<input type="text" placeholder="Your Name" required>
+<input type="email" placeholder="Email Address" required>
+</div>
+<textarea placeholder="Write Your Message Here..." required></textarea>
+<button type="submit" class="send-btn">Send Inquiry ✉️</button>
+</form>
+</div>
+
+<div class="contact-form-box" style="background:#131921; color:white;">
+<div>
+<h2 style="color:#ff9900;">Support Info</h2>
+<p style="margin-top:15px;">📍 Multan, Punjab, Pakistan</p>
+<p style="margin-top:10px;">📞 +92 300 1234567</p>
+<p style="margin-top:10px;">✉️ support@shopeasy.com</p>
+</div>
+
+<div class="map-holder">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110433.02334812304!2d71.43372299710325!3d30.181454504107613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x393b33e79758e489%3A0x3f61f7db6ec33c3f!2sMultan%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1717770000000!5m2!1sen!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+</div>
+</section>
+
+<div class="journey-bar">
+    <div class="journey-info">
+        <h3>Need to continue shopping?</h3>
+        <p>Return to our main landing page showcase deck to browse seasonal catalog updates.</p>
+    </div>
+    <a href="home.html" class="journey-cta">Return to Homepage ➔</a>
+</div>
+
+<script>
+function syncCartBadge(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let count = cart.reduce((total, item) => total + item.qty, 0);
+    document.getElementById("cartCount").innerText = count;
+}
+document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert("Inquiry logged successfully!");
+    this.reset();
+});
+window.onload = syncCartBadge;
+</script>
+</body>
+</html>

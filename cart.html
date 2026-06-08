@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Cart | ShopEasy</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{ margin:0; font-family:Arial, sans-serif; background:#f5f5f5; }
+header{ background:#131921; padding:15px 5%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+.logo{ color:white; font-size:28px; font-weight:bold; }
+nav{ display:flex; gap:18px; flex-wrap:wrap; }
+nav a{ color:white; text-decoration:none; font-size:15px; transition:0.3s; }
+nav a:hover{ color:#ff9900; }
+.cart-section{ padding:40px 5%; }
+.cart-section h1{ font-size:38px; margin-bottom:25px; color:#222; }
+.cart-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:15px; }
+.search-box{ padding:12px 15px; width:280px; border:none; border-radius:8px; font-size:15px; outline:none; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+#cart-items{ display:flex; flex-direction:column; gap:20px; }
+.cart-item{ background:white; border-radius:15px; padding:20px; display:flex; gap:20px; align-items:center; box-shadow:0 4px 12px rgba(0,0,0,0.08); flex-wrap:wrap; transition:0.3s; }
+.cart-item:hover{ transform:translateY(-4px); }
+.cart-item img{ width:140px; height:140px; object-fit:cover; border-radius:12px; }
+.item-details{ flex:1; }
+.item-details h2{ margin:0 0 10px; font-size:22px; color:#111; }
+.price{ font-size:20px; font-weight:bold; color:#ff6600; margin-bottom:12px; }
+.quantity-box{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.quantity-box button{ width:32px; height:32px; border:none; background:#ff9900; color:white; font-size:18px; border-radius:5px; cursor:pointer; }
+.quantity-box span{ font-size:18px; font-weight:bold; }
+.action-buttons{ display:flex; gap:10px; flex-wrap:wrap; }
+.remove-btn{ padding:8px 14px; border:none; background:red; color:white; border-radius:8px; cursor:pointer; }
+.cart-summary{ margin-top:35px; background:white; padding:25px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+.summary-box{ display:flex; justify-content:space-between; margin-bottom:12px; font-size:18px; }
+.total{ font-weight:bold; font-size:24px; color:#ff6600; }
+.coupon-box{ display:flex; gap:10px; margin:20px 0; flex-wrap:wrap; }
+.coupon-box input{ padding:12px; flex:1; min-width:200px; border:none; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+.coupon-box button{ padding:12px 18px; border:none; background:#131921; color:white; border-radius:8px; cursor:pointer; }
+.checkout-btn{ width:100%; padding:15px; border:none; background:#ff9900; color:#111; font-weight:bold; font-size:20px; border-radius:10px; cursor:pointer; transition:0.3s; }
+.checkout-btn:hover{ background:#e67e00; }
+@media(max-width:768px){ .cart-item{ flex-direction:column; align-items:flex-start; } .cart-item img{ width:100%; height:240px; } .search-box{ width:100%; } }
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">ShopEasy</div>
+<nav>
+<nav>
+<a href="home.html">Home</a>
+<a href="products.html">Products</a>
+<a href="cart.html">Cart (<span id="cartCount">0</span>)</a>
+<a href="checkout.html">Checkout</a>
+<a href="track.html">Track Order</a> <a href="contact.html">Contact</a>
+</nav>
+</nav>
+</header>
+
+<section class="cart-section">
+<h1>Your Shopping Cart</h1>
+
+<div class="cart-top">
+<input type="text" class="search-box" placeholder="Search Cart Items..." onkeyup="searchCart()">
+<h2 id="cart-count">0 Items</h2>
+</div>
+
+<div id="cart-items"></div>
+
+<div class="cart-summary">
+<div class="summary-box">
+<span>Subtotal</span>
+<span id="subtotal-val">PKR 0</span>
+</div>
+<div class="summary-box">
+<span>Delivery Charges</span>
+<span id="delivery-val">PKR 0</span>
+</div>
+<div class="summary-box">
+<span>Discount</span>
+<span id="discount-val">- PKR 0</span>
+</div>
+<hr style="margin: 15px 0;">
+<div class="summary-box total">
+<span>Total</span>
+<span id="total-val">PKR 0</span>
+</div>
+
+<div class="coupon-box">
+<input type="text" id="couponInput" placeholder="Enter Coupon (Try 'SAVE500')">
+<button onclick="applyCoupon()">Apply Coupon</button>
+</div>
+
+<button class="checkout-btn" onclick="navigateToCheckout()">Proceed To Checkout ➔</button>
+</div>
+</section>
+
+<script>
+let appliedDiscount = 0;
+
+function loadCart(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let container = document.getElementById("cart-items");
+    
+    let totalItemsCount = cart.reduce((total, item) => total + item.qty, 0);
+    document.getElementById("cartCount").innerText = totalItemsCount;
+    document.getElementById("cart-count").innerText = totalItemsCount + " Items";
+
+    container.innerHTML = "";
+
+    if(cart.length === 0){
+        container.innerHTML = "<h3 style='text-align:center; padding: 40px; color:#666;'>Your cart is empty 🛒</h3>";
+        document.getElementById("subtotal-val").innerText = "PKR 0";
+        document.getElementById("delivery-val").innerText = "PKR 0";
+        document.getElementById("total-val").innerText = "PKR 0";
+        return;
+    }
+
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+        let itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+
+        container.innerHTML += `
+        <div class="cart-item" data-name="${item.name.toLowerCase()}">
+            <img src="${item.image || 'https://via.placeholder.com/150'}" alt="${item.name}">
+            <div class="item-details">
+                <h2>${item.name}</h2>
+                <div class="price">PKR ${item.price}</div>
+                <div class="quantity-box">
+                    <button onclick="decreaseQty(${index})">-</button>
+                    <span>${item.qty}</span>
+                    <button onclick="increaseQty(${index})">+</button>
+                </div>
+                <div class="action-buttons">
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+
+    let deliveryCharges = subtotal > 0 ? 250 : 0;
+    let grandTotal = (subtotal + deliveryCharges) - appliedDiscount;
+    if(grandTotal < 0) grandTotal = 0;
+
+    document.getElementById("subtotal-val").innerText = "PKR " + subtotal;
+    document.getElementById("delivery-val").innerText = "PKR " + deliveryCharges;
+    document.getElementById("discount-val").innerText = "- PKR " + appliedDiscount;
+    document.getElementById("total-val").innerText = "PKR " + grandTotal;
+}
+
+function increaseQty(index){
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    cart[index].qty += 1;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function decreaseQty(index){
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    if(cart[index].qty > 1){
+        cart[index].qty -= 1;
+    } else {
+        cart.splice(index, 1);
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function removeItem(index){
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function searchCart() {
+    let input = document.querySelector('.search-box').value.toLowerCase();
+    let items = document.querySelectorAll('.cart-item');
+    items.forEach(item => {
+        let name = item.getAttribute('data-name');
+        item.style.display = name.includes(input) ? 'flex' : 'none';
+    });
+}
+
+function applyCoupon(){
+    let code = document.getElementById("couponInput").value.trim();
+    if(code === "SAVE500"){
+        appliedDiscount = 500;
+        alert("Coupon Applied! PKR 500 Discount added.");
+        loadCart();
+    } else {
+        alert("Invalid Coupon Code!");
+    }
+}
+
+function navigateToCheckout() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(cart.length === 0) {
+        alert("Your cart is empty!");
+    } else {
+        window.location.href = "checkout.html";
+    }
+}
+
+window.onload = loadCart;
+</script>
+</body>
+</html>
